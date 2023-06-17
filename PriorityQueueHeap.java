@@ -1,3 +1,5 @@
+import myExeptions.ExceptionIsEmpty;
+
 public class PriorityQueueHeap<T extends Comparable<T>> {
     private MaxHeap<PriorityItem<T>> heap;
 
@@ -16,6 +18,26 @@ public class PriorityQueueHeap<T extends Comparable<T>> {
         return heap.isEmpty();
     }
 
+    public T dequeue() throws ExceptionIsEmpty {
+        if (isEmpty()) {
+            throw new ExceptionIsEmpty("la cola esta vacia");
+        }
+        PriorityItem<T> priorityItem = heap.removeMax();
+        return priorityItem.getItem();
+    }
+
+    public T front() throws ExceptionIsEmpty {
+        if (isEmpty()) {
+            throw new ExceptionIsEmpty("la cola esta vacia");
+        }
+        PriorityItem<T> priorityItem = heap.getMax();
+        return priorityItem.getItem();
+    }
+
+    public String toString() {
+        return heap.toString();
+    }
+
     private class PriorityItem<T extends Comparable<T>> implements Comparable<PriorityItem<T>> {
         private T item;
         private int priority;
@@ -26,11 +48,15 @@ public class PriorityQueueHeap<T extends Comparable<T>> {
         }
 
         public T getItem() {
-            return item;
+            return this.item;
         }
 
         public int compareTo(PriorityItem<T> other) {
             return Integer.compare(priority, other.priority);
+        }
+
+        public String toString() {
+            return item.toString() + " (Prioridad: " + priority + ")";
         }
     }
 

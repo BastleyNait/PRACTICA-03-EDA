@@ -1,4 +1,4 @@
-
+import myExeptions.ExceptionIsEmpty;
 import java.util.ArrayList;
 
 public class MaxHeap<T extends Comparable<T>> {
@@ -33,6 +33,27 @@ public class MaxHeap<T extends Comparable<T>> {
         heapArr.set(childIndex, childItem);
     }
 
+    public T getMax() throws ExceptionIsEmpty {
+        if (isEmpty()) {
+            throw new ExceptionIsEmpty("El heap está vacío");
+        }
+        return heapArr.get(0);
+    }
+
+    public T getMin() throws ExceptionIsEmpty {
+        if (isEmpty()) {
+            throw new ExceptionIsEmpty("El heap está vacío");
+        }
+        T minItem = heapArr.get(0);
+        for (int i = 1; i < heapArr.size(); i++) {
+            T currentItem = heapArr.get(i);
+            if (currentItem.compareTo(minItem) < 0) {
+                minItem = currentItem;
+            }
+        }
+        return minItem;
+    }
+
     // Hunde un elemento en el índice dado hasta su posición adecuada en el heap
     private void undir(int parentIndex) {
         int leftChildIndex = 2 * parentIndex + 1;
@@ -61,9 +82,9 @@ public class MaxHeap<T extends Comparable<T>> {
     }
 
     // Elimina y devuelve el elemento de mayor valor (raíz del heap)
-    public T removeMax() {
+    public T removeMax() throws ExceptionIsEmpty {
         if (isEmpty()) {
-            throw new IllegalStateException("Heap is empty");
+            throw new ExceptionIsEmpty("Heap esta vacio");
         }
 
         T maxItem = heapArr.get(0);
