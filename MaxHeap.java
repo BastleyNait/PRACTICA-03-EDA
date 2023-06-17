@@ -19,12 +19,12 @@ public class MaxHeap<T extends Comparable<T>> {
         heapArr.set(index2, temp);
     }
 
-    public void insert(T item) {
+    public void elevar(T item) {
         heapArr.add(item);
-        insert(heapArr.size() - 1);
+        elevar(heapArr.size() - 1);
     }
 
-    private void insert(int childI) {
+    private void elevar(int childI) {
         int parentI = (childI - 1) / 2;
         T childItem = heapArr.get(childI);
 
@@ -34,6 +34,41 @@ public class MaxHeap<T extends Comparable<T>> {
             parentI = (childI - 1) / 2;
         }
         heapArr.set(childI, childItem);
+    }
+
+    private void undir(int parentI) {
+        int lChildI = 2 * parentI + 1;
+        int rChildI = 2 * parentI + 2;
+        int largestI = parentI;
+
+        if (lChildI < heapArr.size() && heapArr.get(lChildI).compareTo(heapArr.get(largestI)) > 0) {
+            largestI = lChildI;
+        }
+
+        if (rChildI < heapArr.size() && heapArr.get(rChildI).compareTo(heapArr.get(largestI)) > 0) {
+            largestI = rChildI;
+        }
+
+        if (largestI != parentI) {
+            swap(parentI, largestI);
+            undir(largestI);
+        }
+    }
+
+    public T removeMax() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Heap is empty");
+        }
+
+        T maxItem = heapArr.get(0);
+        T lastItem = heapArr.remove(heapArr.size() - 1);
+
+        if (!isEmpty()) {
+            heapArr.set(0, lastItem);
+            undir(0);
+        }
+
+        return maxItem;
     }
 
     @Override
