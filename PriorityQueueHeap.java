@@ -34,6 +34,14 @@ public class PriorityQueueHeap<T extends Comparable<T>> {
         return priorityItem.getItem();
     }
 
+    public T back() throws ExceptionIsEmpty {
+        if (isEmpty()) {
+            throw new ExceptionIsEmpty("la cola esta vacia");
+        }
+        PriorityItem<T> priorityItem = heap.getMin();
+        return priorityItem.getItem();
+    }
+
     public String toString() {
         return heap.toString();
     }
